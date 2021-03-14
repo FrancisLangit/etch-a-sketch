@@ -4,15 +4,28 @@ class EtchASketch {
         this.gridContainer = document.getElementById('grid-container');
     }
     
+    changeGridItemColor(gridItem) {
+        /**Changes background of gridItem to a different color.*/
+        gridItem.style.setProperty('background', 'black');
+    }
+
+    createGridItem() {
+        /**Creates a div with class grid-item and a mouseover event listener
+         * that calls changeGridItemColor().*/
+        const gridItem = document.createElement('div');
+        gridItem.setAttribute('class', 'grid-item');
+        gridItem.addEventListener(
+            'mouseover', () => this.changeGridItemColor(gridItem));
+        this.gridContainer.appendChild(gridItem);
+    }
+
     createGrid(size) {
         /** Sets number of columns in grid container equal to size argument
          *  and fills such up with size**2 grid-item divs.*/
         this.gridContainer.style.setProperty(
             'grid-template-columns', `repeat(${size}, 1fr)`);
         for (let i = 0; i < size**2; i++) {
-            const gridItem = document.createElement('div');
-            gridItem.setAttribute('class', 'grid-item');
-            this.gridContainer.appendChild(gridItem);
+            this.createGridItem();
         }
     }
 
