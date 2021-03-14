@@ -1,5 +1,11 @@
+#grid-container {
+    display: inline-grid;
+    height: 500px;
+    width: 500px;
+}
+
 .grid-item {
     border: 1px solid rgb(0, 0, 0);
-    width: 10px;
-    height: 10px;
+    height: auto;
+    width: auto;
 }
