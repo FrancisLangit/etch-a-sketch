@@ -29,18 +29,13 @@ class EtchASketch {
         }
     }
 
-    checkChangeSizeButton() {
-        /**Adds event listener to change size button that prompts user for
-         * new grid size if and when they click on it.*/
+    run() {
+        /**Runs the program. Adds event listener to change size button and 
+         * creates a 16x16 grid by default.*/
         const changeSizeButton = document.getElementById(
             'change-size-button');
         changeSizeButton.addEventListener(
             'click', () => this.promptNewGridSize());
-    }
-    
-    run() {
-        /**Runs the program. Creates a 16x16 grid by default.*/
-        this.checkChangeSizeButton();
         this.createGrid(16);
     }
 }
