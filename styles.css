@@ -1,8 +1,5 @@
-#grid-container {
-    display: grid;
-    grid-template-columns: auto auto auto;
-  }
-
 .grid-item {
     border: 1px solid rgb(0, 0, 0);
+    width: 10px;
+    height: 10px;
 }
