@@ -1,3 +1,7 @@
+#change-size-button {
+    display: block;
+}
+
 #grid-container {
     display: inline-grid;
     height: 500px;
