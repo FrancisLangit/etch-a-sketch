@@ -15,16 +15,27 @@ class EtchASketch {
             this.gridContainer.appendChild(gridItem);
         }
     }
-    
-    checkChangeSizeButton() {
-        /**Changes number of grid-item divs in grid container if and when user
-         * clicks change size button and inputs new size.*/
-        const changeSizeButton = document.getElementById('change-size-button');
-        changeSizeButton.addEventListener("click", () => {
-            const newSize = prompt("Enter new size.");
+
+    promptNewGridSize() {
+        /**Prompts user for new grid size. Changes number of grid-item divs in
+         * container if user enters non-negative and non-zero number between 1
+         * and 100.*/
+        const newSize = prompt("Enter new size.");
+        if (newSize > 0 && newSize <= 100) {
             this.gridContainer.innerHTML = '';
             this.createGrid(newSize);
-        });
+        } else {
+            alert("Size cannot be negative, 0, or over 100.");
+        }
+    }
+
+    checkChangeSizeButton() {
+        /**Adds event listener to change size button that prompts user for
+         * new grid size if and when they click on it.*/
+        const changeSizeButton = document.getElementById(
+            'change-size-button');
+        changeSizeButton.addEventListener(
+            'click', () => this.promptNewGridSize());
     }
     
     run() {
