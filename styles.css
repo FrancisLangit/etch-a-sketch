@@ -1,11 +1,11 @@
-#change-size-button {
-    display: block;
-}
-
 #grid-container {
     display: inline-grid;
     height: 500px;
     width: 500px;
+}
+
+.button {
+    display: block;
 }
 
 .grid-item {

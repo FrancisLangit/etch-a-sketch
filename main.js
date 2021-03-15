@@ -2,7 +2,7 @@ class EtchASketch {
     constructor() {
         this.isGreyscale = false;
         this.isRainbow = false;
-        this.isEraser = true;
+        this.isEraser = false;
         this.defaultSize = 16;
         this.gridContainer = document.getElementById('grid-container');
     }
@@ -20,7 +20,7 @@ class EtchASketch {
         /**Generates a random hexidecimal value in the form of a string.
          * Original by aravk33 from https://stackoverflow.com/q/5092808/).*/
         return '#' + (
-            Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0')
+            Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
     }
 
     changeGridItemColor(gridItem) {
@@ -70,13 +70,33 @@ class EtchASketch {
         }
     }
 
-    run() {
-        /**Runs the program. Adds event listener to change size button and
-         * creates a 16x16 grid by default.*/
+    configureChangeSizeButton() {
+        /**Adds event listener to change size button that makes it call upon
+         * promptNewGridSize upon click.*/
         const changeSizeButton = document.getElementById(
             'change-size-button');
         changeSizeButton.addEventListener(
             'click', () => this.promptNewGridSize());
+    }
+
+    configureClearCanvasButton() {
+        /**Adds event listener to clear canvas button that makes it turn all 
+         * gridItem div backgrounds to white upon click. */
+        const clearCanvasButton = document.getElementById(
+            'clear-canvas-button');
+        clearCanvasButton.addEventListener('click', () => {
+            const gridItems = document.getElementsByClassName('grid-item');
+            for (let i = 0; i < gridItems.length; i++) {
+                gridItems[i].style.setProperty('background', 'white');
+            }
+        });
+    }
+
+    run() {
+        /**Runs the program. Configures change size and clear canvas buttons 
+         * and creates a 16x16 grid by default.*/
+        this.configureChangeSizeButton();
+        this.configureClearCanvasButton();
         this.createGrid(this.defaultSize);
     }
 }
