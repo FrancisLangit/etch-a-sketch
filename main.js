@@ -1,7 +1,8 @@
 class EtchASketch {
     constructor() {
-        this.isGreyscale = true;
+        this.isGreyscale = false;
         this.isRainbow = false;
+        this.isEraser = true;
         this.defaultSize = 16;
         this.gridContainer = document.getElementById('grid-container');
     }
@@ -29,6 +30,8 @@ class EtchASketch {
             this.darkenGridItemColor(gridItem);
         } else if (this.isRainbow) {
             gridItem.style.setProperty('background', this.getRandomHex());
+        } else if (this.isEraser) {
+            gridItem.style.setProperty('background', 'white');
         } else {
             gridItem.style.setProperty('background-color', 'black');
         }
