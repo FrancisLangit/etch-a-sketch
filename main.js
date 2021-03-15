@@ -7,6 +7,41 @@ class EtchASketch {
         this.gridContainer = document.getElementById('grid-container');
     }
 
+    promptNewGridSize() {
+        /**Prompts user for new grid size. Changes number of grid-item divs in
+         * container if user enters non-negative and non-zero number between 1
+         * and 100.*/
+        const newSize = prompt("Enter new size.");
+        if (newSize > 0 && newSize <= 100) {
+            this.gridContainer.innerHTML = '';
+            this.createGrid(newSize);
+        } else {
+            alert("Size cannot be negative, 0, or over 100.");
+        }
+    }
+
+    configureChangeSizeButton() {
+        /**Adds event listener to change size button that makes it call upon
+         * promptNewGridSize upon click.*/
+        const changeSizeButton = document.getElementById(
+            'change-size-button');
+        changeSizeButton.addEventListener(
+            'click', () => this.promptNewGridSize());
+    }
+
+    configureClearCanvasButton() {
+        /**Adds event listener to clear canvas button that makes it turn all 
+         * gridItem div backgrounds to white upon click. */
+        const clearCanvasButton = document.getElementById(
+            'clear-canvas-button');
+        clearCanvasButton.addEventListener('click', () => {
+            const gridItems = document.getElementsByClassName('grid-item');
+            for (let i = 0; i < gridItems.length; i++) {
+                gridItems[i].style.setProperty('background', 'white');
+            }
+        });
+    }
+
     darkenGridItemColor(gridItem) {
         /**Subtracts 10% brightness from the gridItem div using its "filter" 
          * CSS property.*/
@@ -55,41 +90,6 @@ class EtchASketch {
         for (let i = 0; i < size ** 2; i++) {
             this.createGridItem();
         }
-    }
-
-    promptNewGridSize() {
-        /**Prompts user for new grid size. Changes number of grid-item divs in
-         * container if user enters non-negative and non-zero number between 1
-         * and 100.*/
-        const newSize = prompt("Enter new size.");
-        if (newSize > 0 && newSize <= 100) {
-            this.gridContainer.innerHTML = '';
-            this.createGrid(newSize);
-        } else {
-            alert("Size cannot be negative, 0, or over 100.");
-        }
-    }
-
-    configureChangeSizeButton() {
-        /**Adds event listener to change size button that makes it call upon
-         * promptNewGridSize upon click.*/
-        const changeSizeButton = document.getElementById(
-            'change-size-button');
-        changeSizeButton.addEventListener(
-            'click', () => this.promptNewGridSize());
-    }
-
-    configureClearCanvasButton() {
-        /**Adds event listener to clear canvas button that makes it turn all 
-         * gridItem div backgrounds to white upon click. */
-        const clearCanvasButton = document.getElementById(
-            'clear-canvas-button');
-        clearCanvasButton.addEventListener('click', () => {
-            const gridItems = document.getElementsByClassName('grid-item');
-            for (let i = 0; i < gridItems.length; i++) {
-                gridItems[i].style.setProperty('background', 'white');
-            }
-        });
     }
 
     run() {
