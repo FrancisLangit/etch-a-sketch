@@ -35,11 +35,24 @@ class EtchASketch {
         const clearCanvasButton = document.getElementById(
             'clear-canvas-button');
         clearCanvasButton.addEventListener('click', () => {
-            const gridItems = document.getElementsByClassName('grid-item');
+            const gridItems = document.querySelectorAll('.grid-item');
             for (let i = 0; i < gridItems.length; i++) {
                 gridItems[i].style.setProperty('background', 'white');
             }
         });
+    }
+
+    configureToggleGridButton() {
+        /**Adds event listener to toggle grid button that makes it toggle the
+         * borders on all the grid squares on and off.*/
+        const toggleGridButton = document.getElementById(
+            'toggle-grid-button');
+        toggleGridButton.addEventListener('click', () => {
+            const gridItems = document.querySelectorAll('.grid-item');
+            for (let i = 0; i < gridItems.length; i++) {
+                gridItems[i].classList.toggle('grid-item-border');
+            }
+        }); 
     }
 
     darkenGridItemColor(gridItem) {
@@ -76,7 +89,7 @@ class EtchASketch {
         /**Creates a div with class grid-item and a mouseover event listener
          * that calls changeGridItemColor().*/
         const gridItem = document.createElement('div');
-        gridItem.setAttribute('class', 'grid-item');
+        gridItem.classList.add('grid-item', 'grid-item-border');
         gridItem.addEventListener(
             'mouseover', () => this.changeGridItemColor(gridItem));
         this.gridContainer.appendChild(gridItem);
@@ -93,10 +106,11 @@ class EtchASketch {
     }
 
     run() {
-        /**Runs the program. Configures change size and clear canvas buttons 
-         * and creates a 16x16 grid by default.*/
+        /**Runs the program. Configures buttons on user interface and creates
+         * a 16x16 grid by default.*/
         this.configureChangeSizeButton();
         this.configureClearCanvasButton();
+        this.configureToggleGridButton();
         this.createGrid(this.defaultSize);
     }
 }
