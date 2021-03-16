@@ -59,6 +59,7 @@ class EtchASketch {
     }
 
     configureButtons() {
+        /**Adds event listeners to all buttons in the user interface.*/
         this.configureChangeSizeButton();
         this.configureClearCanvasButton();
         this.configureToggleBordersButton();

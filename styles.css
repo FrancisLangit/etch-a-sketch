@@ -4,10 +4,6 @@
     width: 500px;
 }
 
-.button {
-    display: block;
-}
-
 .canvas-item {
     background: white;
     filter: brightness(1);
