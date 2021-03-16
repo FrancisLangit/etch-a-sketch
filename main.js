@@ -1,19 +1,22 @@
 class EtchASketch {
     constructor() {
+        // Drawing modes.
         this.isGreyscale = false;
         this.isRainbow = false;
         this.isEraser = false;
+
+        // Canvas settings.
         this.defaultSize = 16;
-        this.gridContainer = document.getElementById('grid-container');
+        this.canvasContainer = document.getElementById('canvas-container');
     }
 
-    promptNewGridSize() {
-        /**Prompts user for new grid size. Changes number of grid-item divs in
-         * container if user enters non-negative and non-zero number between 1
-         * and 100.*/
+    promptNewCanvasSize() {
+        /**Prompts user for new canvas size. Changes number of canvas-item 
+         * divs in container if user enters non-negative and non-zero number
+         * between 1 and 100.*/
         const newSize = prompt("Enter new size.");
         if (newSize > 0 && newSize <= 100) {
-            this.gridContainer.innerHTML = '';
+            this.canvasContainer.innerHTML = '';
             this.createGrid(newSize);
         } else {
             alert("Size cannot be negative, 0, or over 100.");
@@ -22,95 +25,139 @@ class EtchASketch {
 
     configureChangeSizeButton() {
         /**Adds event listener to change size button that makes it call upon
-         * promptNewGridSize upon click.*/
+         * promptNewCanvasSize upon click.*/
         const changeSizeButton = document.getElementById(
             'change-size-button');
         changeSizeButton.addEventListener(
-            'click', () => this.promptNewGridSize());
+            'click', () => this.promptNewCanvasSize());
     }
 
     configureClearCanvasButton() {
         /**Adds event listener to clear canvas button that makes it turn all 
-         * gridItem div backgrounds to white upon click. */
+         * div backgrounds of canvas squares to white upon click.*/
         const clearCanvasButton = document.getElementById(
             'clear-canvas-button');
         clearCanvasButton.addEventListener('click', () => {
-            const gridItems = document.querySelectorAll('.grid-item');
-            for (let i = 0; i < gridItems.length; i++) {
-                gridItems[i].style.setProperty('background', 'white');
+            const canvasItems = document.querySelectorAll('.canvas-item');
+            for (let i = 0; i < canvasItems.length; i++) {
+                canvasItems[i].style.setProperty('background', 'white');
             }
         });
     }
 
-    configureToggleGridButton() {
-        /**Adds event listener to toggle grid button that makes it toggle the
-         * borders on all the grid squares on and off.*/
-        const toggleGridButton = document.getElementById(
-            'toggle-grid-button');
-        toggleGridButton.addEventListener('click', () => {
-            const gridItems = document.querySelectorAll('.grid-item');
-            for (let i = 0; i < gridItems.length; i++) {
-                gridItems[i].classList.toggle('grid-item-border');
+    configureToggleBordersButton() {
+        /**Adds event listener to toggle borders button that makes it toggle 
+         * the borders on all canvas squares on and off.*/
+        const toggleBordersButton = document.getElementById(
+            'toggle-borders-button');
+        toggleBordersButton.addEventListener('click', () => {
+            const canvasItems = document.querySelectorAll('.canvas-item');
+            for (let i = 0; i < canvasItems.length; i++) {
+                canvasItems[i].classList.toggle('canvas-item-border');
             }
         }); 
     }
 
-    darkenGridItemColor(gridItem) {
-        /**Subtracts 10% brightness from the gridItem div using its "filter" 
+    configureButtons() {
+        this.configureChangeSizeButton();
+        this.configureClearCanvasButton();
+        this.configureToggleBordersButton();
+    }
+
+    darkenCanvasItemColor(canvasItem) {
+        /**Subtracts 10% brightness from the canvasItem div using its "filter" 
          * CSS property.*/
-        let filterProperty = getComputedStyle(gridItem).filter;
+        let filterProperty = getComputedStyle(canvasItem).filter;
         let brightness = filterProperty.replace(/[^\d.]/g, '');
         let newBrightness = brightness - 0.1;
-        gridItem.style.setProperty('filter', `brightness(${newBrightness})`);
+        canvasItem.style.setProperty(
+            'filter', `brightness(${newBrightness})`);
     }
 
-    getRandomHex() {
-        /**Generates a random hexidecimal value in the form of a string.
-         * Original by aravk33 from https://stackoverflow.com/q/5092808/).*/
-        return '#' + (
+    randomizeCanvasItemColor(canvasItem) {
+        /**Sets the background of canvasItem to a random hexademical value.
+         * Random hexadecimal generator originally by Stackoverflow user 
+         * aravk33 from (https://stackoverflow.com/q/5092808/).*/
+        const randomHex = '#' + (
             Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
+        canvasItem.style.setProperty('background', randomHex);
     }
 
-    changeGridItemColor(gridItem) {
-        /**Changes background-color of gridItem to a different color dependent
-         * on boolean values of this.isGreyscale and this.isRainbow.*/
+    colorCanvasItem(canvasItem) {
+        /**Changes background of canvasItem to a different color dependent on
+         * boolean values of this.isGreyscale, this.isRainbow, and
+         * this.isEraser.*/
         if (this.isGreyscale) {
-            this.darkenGridItemColor(gridItem);
+            this.darkenCanvasItemColor(canvasItem);
         } else if (this.isRainbow) {
-            gridItem.style.setProperty('background', this.getRandomHex());
+            this.randomizeCanvasItemColor(canvasItem);
         } else if (this.isEraser) {
-            gridItem.style.setProperty('background', 'white');
+            canvasItem.style.setProperty('background', 'white');
         } else {
-            gridItem.style.setProperty('background-color', 'black');
+            canvasItem.style.setProperty('background', 'black');
         }
     }
 
-    createGridItem() {
-        /**Creates a div with class grid-item and a mouseover event listener
-         * that calls changeGridItemColor().*/
-        const gridItem = document.createElement('div');
-        gridItem.classList.add('grid-item', 'grid-item-border');
-        gridItem.addEventListener(
-            'mouseover', () => this.changeGridItemColor(gridItem));
-        this.gridContainer.appendChild(gridItem);
+    activateCanvas(canvasStatus, canvasItem) {
+        /**Adds mouseover event listener calling colorCanvasItem() to all 
+         * canvas squares.*/
+        canvasStatus.textContent = "Canvas active.";
+        canvasItem.addEventListener(
+            'mouseover', () => this.colorCanvasItem(canvasItem));
+    }
+
+    deactivateCanvas(canvasStatus, canvasItem) {
+        /**Replaces all grid items with a copy of themselves without any event
+         * listeners.*/
+        canvasStatus.textContent = "Canvas inactive.";
+        canvasItem.replaceWith(canvasItem.cloneNode(true));
+    }
+
+    toggleCanvas(isCanvasActive) {
+        /**Calls activateCanvas() if isCanvasActive is true. Otherwise, calls
+         * deactivateCanvas().*/
+        const canvasStatus = document.getElementById('canvas-status');
+        const canvasItems = document.querySelectorAll('.canvas-item');
+        for (let i = 0; i < canvasItems.length; i++) {
+            if (isCanvasActive) {
+                this.activateCanvas(canvasStatus, canvasItems[i]);
+            } else {
+                this.deactivateCanvas(canvasStatus, canvasItems[i]);
+            }
+        }
+    }
+
+    configureCanvasToggling() {
+        /**Adds event listener to window that checks if a mouse click is made
+         * inside or outside #canvas-container div. Passes true to 
+         * toggleCanvas() if former. If latter, passes false.*/
+        window.addEventListener('click', (e) => {
+            if (this.canvasContainer.contains(e.target)) {
+                this.toggleCanvas(true);
+            } else {
+                this.toggleCanvas(false);
+            }
+        });
     }
 
     createGrid(size) {
         /**Sets number of columns in grid container equal to size argument
-         * and fills such up with size**2 grid-item divs.*/
-        this.gridContainer.style.setProperty(
+         * and fills such up with size**2 divs with canvas-item and 
+         * canvas-item-border classes.*/
+        this.canvasContainer.style.setProperty(
             'grid-template-columns', `repeat(${size}, 1fr)`);
         for (let i = 0; i < size ** 2; i++) {
-            this.createGridItem();
+            const canvasItem = document.createElement('div');
+            canvasItem.classList.add('canvas-item', 'canvas-item-border');
+            this.canvasContainer.appendChild(canvasItem);
         }
     }
 
     run() {
-        /**Runs the program. Configures buttons on user interface and creates
-         * a 16x16 grid by default.*/
-        this.configureChangeSizeButton();
-        this.configureClearCanvasButton();
-        this.configureToggleGridButton();
+        /**Runs the program. Configures buttons on user interface, configures
+         * canvas toggling feature, and creates a 16x16 grid by default.*/
+        this.configureButtons();
+        this.configureCanvasToggling();
         this.createGrid(this.defaultSize);
     }
 }
