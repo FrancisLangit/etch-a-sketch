@@ -6,7 +6,6 @@ class EtchASketch {
         this.isEraser = false;
 
         // Canvas settings.
-        this.isCanvasActive = false;
         this.defaultSize = 16;
         this.canvasContainer = document.getElementById('canvas-container');
     }
@@ -35,7 +34,7 @@ class EtchASketch {
 
     configureClearCanvasButton() {
         /**Adds event listener to clear canvas button that makes it turn all 
-         * div backgrounds of canvas squares to white upon click. */
+         * div backgrounds of canvas squares to white upon click.*/
         const clearCanvasButton = document.getElementById(
             'clear-canvas-button');
         clearCanvasButton.addEventListener('click', () => {
@@ -65,7 +64,8 @@ class EtchASketch {
         let filterProperty = getComputedStyle(canvasItem).filter;
         let brightness = filterProperty.replace(/[^\d.]/g, '');
         let newBrightness = brightness - 0.1;
-        canvasItem.style.setProperty('filter', `brightness(${newBrightness})`);
+        canvasItem.style.setProperty(
+            'filter', `brightness(${newBrightness})`);
     }
 
     randomizeCanvasItemColor(canvasItem) {
@@ -96,13 +96,15 @@ class EtchASketch {
         /**Adds mouseover event listener calling colorCanvasItem() to all 
          * canvas squares if isCanvasActive true. Otherwise, replaces all grid
          * items with a copy of themselves without any event listeners.*/
-        this.isCanvasActive = isCanvasActive
+        const canvasStatus = document.getElementById('canvas-status');
         const canvasItems = document.querySelectorAll('.canvas-item');
         for (let i = 0; i < canvasItems.length; i++) {
             if (isCanvasActive) {
+                canvasStatus.textContent = "Canvas active.";
                 canvasItems[i].addEventListener(
                     'mouseover', () => this.colorCanvasItem(canvasItems[i]));
             } else {
+                canvasStatus.textContent = "Canvas inactive.";
                 canvasItems[i].replaceWith(canvasItems[i].cloneNode(true));
             }
         }
