@@ -58,6 +58,12 @@ class EtchASketch {
         }); 
     }
 
+    configureButtons() {
+        this.configureChangeSizeButton();
+        this.configureClearCanvasButton();
+        this.configureToggleBordersButton();
+    }
+
     darkenCanvasItemColor(canvasItem) {
         /**Subtracts 10% brightness from the canvasItem div using its "filter" 
          * CSS property.*/
@@ -150,9 +156,7 @@ class EtchASketch {
     run() {
         /**Runs the program. Configures buttons on user interface, configures
          * canvas toggling feature, and creates a 16x16 grid by default.*/
-        this.configureChangeSizeButton();
-        this.configureClearCanvasButton();
-        this.configureToggleBordersButton();
+        this.configureButtons();
         this.configureCanvasToggling();
         this.createGrid(this.defaultSize);
     }
