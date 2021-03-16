@@ -7,13 +7,13 @@ class EtchASketch {
     promptNewCanvasSize() {
         /**Prompts user for new canvas size. Changes number of canvas-item 
          * divs in container if user enters non-negative and non-zero number
-         * between 1 and 100.*/
+         * between 1 and 32.*/
         const newSize = prompt("Enter new size.");
-        if (newSize > 0 && newSize <= 100) {
+        if (newSize > 0 && newSize <= 32) {
             this.canvasContainer.innerHTML = '';
             this.createGrid(newSize);
-        } else {
-            alert("Size cannot be negative, 0, or over 100.");
+        } else if (newSize <= 0 || newSize > 32) {
+            alert("Size cannot be negative, 0, or over 32.");
         }
     }
 
