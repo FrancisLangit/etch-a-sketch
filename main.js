@@ -59,6 +59,39 @@ class EtchASketch {
         }); 
     }
 
+    darkenCanvasItemColor(canvasItem) {
+        /**Subtracts 10% brightness from the canvasItem div using its "filter" 
+         * CSS property.*/
+        let filterProperty = getComputedStyle(canvasItem).filter;
+        let brightness = filterProperty.replace(/[^\d.]/g, '');
+        let newBrightness = brightness - 0.1;
+        canvasItem.style.setProperty('filter', `brightness(${newBrightness})`);
+    }
+
+    randomizeCanvasItemColor(canvasItem) {
+        /**Sets the background of canvasItem to a random hexademical value.
+         * Random hexadecimal generator originally by Stackoverflow user 
+         * aravk33 from (https://stackoverflow.com/q/5092808/).*/
+        const randomHex = '#' + (
+            Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
+        canvasItem.style.setProperty('background', randomHex);
+    }
+
+    colorCanvasItem(canvasItem) {
+        /**Changes background of canvasItem to a different color dependent on
+         * boolean values of this.isGreyscale, this.isRainbow, and
+         * this.isEraser.*/
+        if (this.isGreyscale) {
+            this.darkenCanvasItemColor(canvasItem);
+        } else if (this.isRainbow) {
+            this.randomizeCanvasItemColor(canvasItem);
+        } else if (this.isEraser) {
+            canvasItem.style.setProperty('background', 'white');
+        } else {
+            canvasItem.style.setProperty('background', 'black');
+        }
+    }
+
     toggleCanvas(isCanvasActive) {
         /**Adds mouseover event listener calling colorCanvasItem() to all 
          * canvas squares if isCanvasActive true. Otherwise, replaces all grid
@@ -77,8 +110,8 @@ class EtchASketch {
 
     configureCanvasToggling() {
         /**Adds event listener to window that checks if a mouse click is made
-         * inside or outside #canvas-container div. Passes true to toggleCanvas()
-         * if former. If latter, passes false.*/
+         * inside or outside #canvas-container div. Passes true to 
+         * toggleCanvas() if former. If latter, passes false.*/
         window.addEventListener('click', (e) => {
             if (this.canvasContainer.contains(e.target)) {
                 this.toggleCanvas(true);
@@ -88,52 +121,15 @@ class EtchASketch {
         });
     }
 
-    darkenCanvasItemColor(canvasItem) {
-        /**Subtracts 10% brightness from the canvasItem div using its "filter" 
-         * CSS property.*/
-        let filterProperty = getComputedStyle(canvasItem).filter;
-        let brightness = filterProperty.replace(/[^\d.]/g, '');
-        let newBrightness = brightness - 0.1;
-        canvasItem.style.setProperty('filter', `brightness(${newBrightness})`);
-    }
-
-    getRandomHex() {
-        /**Generates a random hexidecimal value in the form of a string.
-         * Original by aravk33 from https://stackoverflow.com/q/5092808/).*/
-        return '#' + (
-            Math.random() * 0xFFFFFF << 0).toString(16).padStart(6, '0');
-    }
-
-    colorCanvasItem(canvasItem) {
-        /**Changes background of canvasItem to a different color dependent on
-         * boolean values of this.isGreyscale, this.isRainbow, 
-         * this.isEraser.*/
-        if (this.isGreyscale) {
-            this.darkenCanvasItemColor(canvasItem);
-        } else if (this.isRainbow) {
-            canvasItem.style.setProperty('background', this.getRandomHex());
-        } else if (this.isEraser) {
-            canvasItem.style.setProperty('background', 'white');
-        } else {
-            canvasItem.style.setProperty('background', 'black');
-        }
-    }
-
-    createCanvasItem() {
-        /**Creates a div with class canvas-item and a mouseover event listener
-         * that calls colorCanvasItem().*/
-        const canvasItem = document.createElement('div');
-        canvasItem.classList.add('canvas-item', 'canvas-item-border');
-        this.canvasContainer.appendChild(canvasItem);
-    }
-
     createGrid(size) {
         /**Sets number of columns in grid container equal to size argument
          * and fills such up with size**2 canvas-item divs.*/
         this.canvasContainer.style.setProperty(
             'grid-template-columns', `repeat(${size}, 1fr)`);
         for (let i = 0; i < size ** 2; i++) {
-            this.createCanvasItem();
+            const canvasItem = document.createElement('div');
+            canvasItem.classList.add('canvas-item', 'canvas-item-border');
+            this.canvasContainer.appendChild(canvasItem);
         }
     }
 
