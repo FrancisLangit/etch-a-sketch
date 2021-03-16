@@ -46,11 +46,13 @@
 
                     <div id="canvas-container"></div>
                     <div id="canvas-status">Click canvas to activate it.</div>
-                </div>
-                <div class="card-footer">
-                    <button id="change-size-button" class="btn btn-secondary m-1">Change Size</button>
-                    <button id="clear-canvas-button" class="btn btn-secondary m-1">Clear Canvas</button>
-                    <button id="toggle-borders-button" class="btn btn-secondary m-1">Toggle Borders</button>  
+                    
+                    <button id="change-size-button" class="btn btn-secondary">Change Size</button>
+                    <button id="clear-canvas-button" class="btn btn-secondary">Clear Canvas</button>                
+                    <div class="form-check form-check-inline form-switch">
+                        <input class="form-check-input" type="checkbox" id="toggle-borders-switch" checked>
+                        <label class="form-check-label" for="toggle-borders-switch">Toggle Borders</label>
+                    </div>
                 </div>
             </div>
         </div>

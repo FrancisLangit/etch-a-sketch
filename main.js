@@ -39,12 +39,12 @@ class EtchASketch {
         });
     }
 
-    configureToggleBordersButton() {
-        /**Adds event listener to toggle borders button that makes it toggle 
+    configureToggleBordersSwitch() {
+        /**Adds event listener to toggle borders switch that makes it toggle 
          * the borders on all canvas squares on and off.*/
-        const toggleBordersButton = document.getElementById(
-            'toggle-borders-button');
-        toggleBordersButton.addEventListener('click', () => {
+        const toggleBordersSwitch = document.getElementById(
+            'toggle-borders-switch');
+        toggleBordersSwitch.addEventListener('click', () => {
             const canvasItems = document.querySelectorAll('.canvas-item');
             for (let i = 0; i < canvasItems.length; i++) {
                 canvasItems[i].classList.toggle('canvas-item-border');
@@ -56,7 +56,7 @@ class EtchASketch {
         /**Adds event listeners to all buttons in the user interface.*/
         this.configureChangeSizeButton();
         this.configureClearCanvasButton();
-        this.configureToggleBordersButton();
+        this.configureToggleBordersSwitch();
     }
 
     darkenCanvasItemColor(canvasItem) {
