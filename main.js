@@ -92,20 +92,31 @@ class EtchASketch {
         }
     }
 
-    toggleCanvas(isCanvasActive) {
+    activateCanvas(canvasStatus, canvasItem) {
         /**Adds mouseover event listener calling colorCanvasItem() to all 
-         * canvas squares if isCanvasActive true. Otherwise, replaces all grid
-         * items with a copy of themselves without any event listeners.*/
+         * canvas squares.*/
+        canvasStatus.textContent = "Canvas active.";
+        canvasItem.addEventListener(
+            'mouseover', () => this.colorCanvasItem(canvasItem));
+    }
+
+    deactivateCanvas(canvasStatus, canvasItem) {
+        /**Replaces all grid items with a copy of themselves without any event
+         * listeners.*/
+        canvasStatus.textContent = "Canvas inactive.";
+        canvasItem.replaceWith(canvasItem.cloneNode(true));
+    }
+
+    toggleCanvas(isCanvasActive) {
+        /**Calls activateCanvas() if isCanvasActive is true. Otherwise, calls
+         * deactivateCanvas().*/
         const canvasStatus = document.getElementById('canvas-status');
         const canvasItems = document.querySelectorAll('.canvas-item');
         for (let i = 0; i < canvasItems.length; i++) {
             if (isCanvasActive) {
-                canvasStatus.textContent = "Canvas active.";
-                canvasItems[i].addEventListener(
-                    'mouseover', () => this.colorCanvasItem(canvasItems[i]));
+                this.activateCanvas(canvasStatus, canvasItems[i]);
             } else {
-                canvasStatus.textContent = "Canvas inactive.";
-                canvasItems[i].replaceWith(canvasItems[i].cloneNode(true));
+                this.deactivateCanvas(canvasStatus, canvasItems[i]);
             }
         }
     }
