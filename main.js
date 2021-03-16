@@ -39,12 +39,12 @@ class EtchASketch {
         });
     }
 
-    configureToggleBordersSwitch() {
-        /**Adds event listener to toggle borders switch that makes it toggle 
+    configureToggleBordersButton() {
+        /**Adds event listener to toggle borders button that makes it toggle 
          * the borders on all canvas squares on and off.*/
-        const toggleBordersSwitch = document.getElementById(
-            'toggle-borders-switch');
-        toggleBordersSwitch.addEventListener('click', () => {
+        const toggleBordersButton = document.getElementById(
+            'toggle-borders-button');
+        toggleBordersButton.addEventListener('click', () => {
             const canvasItems = document.querySelectorAll('.canvas-item');
             for (let i = 0; i < canvasItems.length; i++) {
                 canvasItems[i].classList.toggle('canvas-item-border');
@@ -56,7 +56,7 @@ class EtchASketch {
         /**Adds event listeners to all buttons in the user interface.*/
         this.configureChangeSizeButton();
         this.configureClearCanvasButton();
-        this.configureToggleBordersSwitch();
+        this.configureToggleBordersButton();
     }
 
     darkenCanvasItemColor(canvasItem) {
@@ -103,7 +103,7 @@ class EtchASketch {
     activateCanvasItem(canvasStatus, canvasItem) {
         /**Adds mouseover event listener calling colorCanvasItem() to all
          * canvas square passed.*/
-        canvasStatus.textContent = "Canvas active.";
+        canvasStatus.textContent = "Active";
         canvasItem.addEventListener(
             'mouseover', () => this.colorCanvasItem(canvasItem));
     }
@@ -111,7 +111,7 @@ class EtchASketch {
     deactivateCanvasItem(canvasStatus, canvasItem) {
         /**Replaces canvas item passed with a copy of themselves without any
          * event listeners.*/
-        canvasStatus.textContent = "Canvas inactive.";
+        canvasStatus.textContent = "Inactive";
         canvasItem.replaceWith(canvasItem.cloneNode(true));
     }
 
@@ -145,7 +145,8 @@ class EtchASketch {
     displayNewCanvasSize(newCanvasSize) {
         /**Display current canvas size on user interface.*/
         const canvasSize = document.getElementById('canvas-size');
-        canvasSize.textContent = `${newCanvasSize}x${newCanvasSize}`;
+        canvasSize.textContent = (
+            `${newCanvasSize}x${newCanvasSize}`);
     }
 
     createNewCanvas(newCanvasSize) {

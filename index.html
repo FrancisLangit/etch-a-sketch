@@ -18,54 +18,51 @@
     </head>
 
     <body class>
-        <div class="d-flex justify-content-center">
-            <div class="card">
+        <div class="d-flex justify-content-center mt-4">
+            <div class="card text-center">
+                <div class="card-header">
+                    Etch A Sketch
+                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Etch A Sketch</h5>
-                    <p class="card-text">Description</p>
+                    <span id="canvas-status" class="card-text">Click Canvas</span>
+                    <span id="canvas-size" class="card-text"></span>
                 </div>
             </div>
         </div>
         
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center mt-3">
             <div class="card">
+                
                 <div class="card-body">
-                    <div class="btn-group mb-3" role="group">
-                        <input type="radio" class="btn-check" name="btnradio" id="default-button" autocomplete="off" checked>
-                        <label class="btn btn-outline-secondary" for="default-button">Default</label>
+                    <div class="d-flex justify-content-center mt-3 mb-4">
+                        <div class="btn-group" role="group">
+                            <input type="radio" class="btn-check" name="btnradio" id="default-button" autocomplete="off" checked>
+                            <label class="btn btn-outline-secondary" for="default-button">Default</label>
+    
+                            <input type="radio" class="btn-check" name="btnradio" id="greyscale-button" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="greyscale-button">Greyscale</label>
+                        
+                            <input type="radio" class="btn-check" name="btnradio" id="rainbow-button" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="rainbow-button">Rainbow</label>
+                        
+                            <input type="radio" class="btn-check" name="btnradio" id="eraser-button" autocomplete="off">
+                            <label class="btn btn-outline-secondary" for="eraser-button">Eraser</label>
+                        </div>
+                    </div>   
 
-                        <input type="radio" class="btn-check" name="btnradio" id="greyscale-button" autocomplete="off">
-                        <label class="btn btn-outline-secondary" for="greyscale-button">Greyscale</label>
-                    
-                        <input type="radio" class="btn-check" name="btnradio" id="rainbow-button" autocomplete="off">
-                        <label class="btn btn-outline-secondary" for="rainbow-button">Rainbow</label>
-                    
-                        <input type="radio" class="btn-check" name="btnradio" id="eraser-button" autocomplete="off">
-                        <label class="btn btn-outline-secondary" for="eraser-button">Eraser</label>
+                    <div class="d-flex justify-content-center mt-2 mb-4">
+                        <div id="canvas-container"></div>
                     </div>
+                </div>
 
-                    <div id="canvas-container"></div>
-
-                    <div id="canvas-status">Click canvas to activate it.</div>
-                    <div id="canvas-size"></div>
-                    
-                    <button id="change-size-button" class="btn btn-secondary">Change Size</button>
-                    <button id="clear-canvas-button" class="btn btn-secondary">Clear Canvas</button>                
-                    <div class="form-check form-check-inline form-switch">
-                        <input class="form-check-input" type="checkbox" id="toggle-borders-switch" checked>
-                        <label class="form-check-label" for="toggle-borders-switch">Toggle Borders</label>
+                <div class="card-footer">
+                    <div class="d-flex justify-content-center my-2">
+                        <button id="clear-canvas-button" class="btn btn-secondary m-1">Clear Canvas</button>       
+                        <button id="change-size-button" class="btn btn-secondary m-1">Change Size</button>
+                        <button id="toggle-borders-button" class="btn btn-secondary m-1">Toggle Borders</button> 
                     </div>
                 </div>
             </div>
-        </div>
-
-        <div class="d-flex justify-content-center">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">MIT License</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Copyright © 2021 Francis Langit</h6>
-                </div>
-            </div>   
         </div>
     </body>
 </html>
