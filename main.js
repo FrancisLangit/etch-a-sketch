@@ -1,11 +1,5 @@
 class EtchASketch {
     constructor() {
-        // Drawing modes.
-        this.isGreyscale = false;
-        this.isRainbow = false;
-        this.isEraser = false;
-
-        // Canvas settings.
         this.defaultSize = 16;
         this.canvasContainer = document.getElementById('canvas-container');
     }
@@ -40,7 +34,7 @@ class EtchASketch {
         clearCanvasButton.addEventListener('click', () => {
             const canvasItems = document.querySelectorAll('.canvas-item');
             for (let i = 0; i < canvasItems.length; i++) {
-                canvasItems[i].style.setProperty('background', 'white');
+                this.resetCanvasItem(canvasItems[i]);
             }
         });
     }
@@ -66,7 +60,7 @@ class EtchASketch {
     }
 
     darkenCanvasItemColor(canvasItem) {
-        /**Subtracts 10% brightness from the canvasItem div using its "filter" 
+        /**Subtracts 10% brightness from the canvasItem div using its "filter"
          * CSS property.*/
         let filterProperty = getComputedStyle(canvasItem).filter;
         let brightness = filterProperty.replace(/[^\d.]/g, '');
@@ -84,32 +78,39 @@ class EtchASketch {
         canvasItem.style.setProperty('background', randomHex);
     }
 
+    resetCanvasItem(canvasItem) {
+        /**Resets background and filter CSS attributes of canvasItem back to
+         * its defaults in .canvas-item class.*/
+        canvasItem.style.setProperty('background', 'white');
+        canvasItem.style.setProperty('filter', 'brightness(1)');
+    }
+
     colorCanvasItem(canvasItem) {
         /**Changes background of canvasItem to a different color dependent on
          * boolean values of this.isGreyscale, this.isRainbow, and
          * this.isEraser.*/
-        if (this.isGreyscale) {
+        if (document.getElementById('greyscale-button').checked) {
             this.darkenCanvasItemColor(canvasItem);
-        } else if (this.isRainbow) {
+        } else if (document.getElementById('rainbow-button').checked) {
             this.randomizeCanvasItemColor(canvasItem);
-        } else if (this.isEraser) {
-            canvasItem.style.setProperty('background', 'white');
+        } else if (document.getElementById('eraser-button').checked) {
+            this.resetCanvasItem(canvasItem);
         } else {
             canvasItem.style.setProperty('background', 'black');
         }
     }
 
-    activateCanvas(canvasStatus, canvasItem) {
-        /**Adds mouseover event listener calling colorCanvasItem() to all 
-         * canvas squares.*/
+    activateCanvasItem(canvasStatus, canvasItem) {
+        /**Adds mouseover event listener calling colorCanvasItem() to all
+         * canvas square passed.*/
         canvasStatus.textContent = "Canvas active.";
         canvasItem.addEventListener(
             'mouseover', () => this.colorCanvasItem(canvasItem));
     }
 
-    deactivateCanvas(canvasStatus, canvasItem) {
-        /**Replaces all grid items with a copy of themselves without any event
-         * listeners.*/
+    deactivateCanvasItem(canvasStatus, canvasItem) {
+        /**Replaces canvas item passed with a copy of themselves without any
+         *  event listeners.*/
         canvasStatus.textContent = "Canvas inactive.";
         canvasItem.replaceWith(canvasItem.cloneNode(true));
     }
@@ -121,9 +122,9 @@ class EtchASketch {
         const canvasItems = document.querySelectorAll('.canvas-item');
         for (let i = 0; i < canvasItems.length; i++) {
             if (isCanvasActive) {
-                this.activateCanvas(canvasStatus, canvasItems[i]);
+                this.activateCanvasItem(canvasStatus, canvasItems[i]);
             } else {
-                this.deactivateCanvas(canvasStatus, canvasItems[i]);
+                this.deactivateCanvasItem(canvasStatus, canvasItems[i]);
             }
         }
     }

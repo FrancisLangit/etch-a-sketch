@@ -17,32 +17,51 @@
         <script src="main.js" async></script> 
     </head>
 
-    <body>
-        <div class="card m-3">
-            <div class="card-body">
-                <h5 class="card-title">Etch A Sketch</h5>
-                <p class="card-text">Description</p>
+    <body class>
+        <div class="d-flex justify-content-center">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Etch A Sketch</h5>
+                    <p class="card-text">Description</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="d-flex justify-content-center">
+            <div class="card">
+                <div class="card-body">
+                    <div class="btn-group mb-3" role="group">
+                        <input type="radio" class="btn-check" name="btnradio" id="default-button" autocomplete="off" checked>
+                        <label class="btn btn-outline-secondary" for="default-button">Default</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="greyscale-button" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="greyscale-button">Greyscale</label>
+                    
+                        <input type="radio" class="btn-check" name="btnradio" id="rainbow-button" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="rainbow-button">Rainbow</label>
+                    
+                        <input type="radio" class="btn-check" name="btnradio" id="eraser-button" autocomplete="off">
+                        <label class="btn btn-outline-secondary" for="eraser-button">Eraser</label>
+                    </div>
+
+                    <div id="canvas-container"></div>
+                    <div id="canvas-status">Click canvas to activate it.</div>
+                </div>
+                <div class="card-footer">
+                    <button id="change-size-button" class="btn btn-secondary m-1">Change Size</button>
+                    <button id="clear-canvas-button" class="btn btn-secondary m-1">Clear Canvas</button>
+                    <button id="toggle-borders-button" class="btn btn-secondary m-1">Toggle Borders</button>  
+                </div>
             </div>
         </div>
 
-        <div class="card m-3">
-            <div class="card-body">
-                <div id="canvas-container"></div>
-                <div id="canvas-status">Click canvas to activate it.</div>
-            </div>
-            <div class="card-footer">
-                <ul class="nav nav-pills">
-                <button id="change-size-button" class="btn btn-secondary m-1">Change Size</button>
-                <button id="clear-canvas-button" class="btn btn-secondary m-1">Clear Canvas</button>
-                <button id="toggle-borders-button" class="btn btn-secondary m-1">Toggle Borders</button>  
-            </div>
+        <div class="d-flex justify-content-center">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">MIT License</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">Copyright © 2021 Francis Langit</h6>
+                </div>
+            </div>   
         </div>
-
-        <div class="card m-3">
-            <div class="card-body">
-                <h5 class="card-title">MIT License</h5>
-                <p class="card-text">Copyright © 2021 Francis Langit</p>
-            </div>
-        </div>   
     </body>
 </html>
