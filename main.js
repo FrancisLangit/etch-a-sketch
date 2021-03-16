@@ -136,7 +136,8 @@ class EtchASketch {
 
     createGrid(size) {
         /**Sets number of columns in grid container equal to size argument
-         * and fills such up with size**2 canvas-item divs.*/
+         * and fills such up with size**2 divs with canvas-item and 
+         * canvas-item-border classes.*/
         this.canvasContainer.style.setProperty(
             'grid-template-columns', `repeat(${size}, 1fr)`);
         for (let i = 0; i < size ** 2; i++) {
