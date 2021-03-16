@@ -1,29 +1,29 @@
 class EtchASketch {
     constructor() {
-        this.defaultSize = 16;
+        this.defaultCanvasSize = 16;
         this.canvasContainer = document.getElementById('canvas-container');
     }
 
-    promptNewCanvasSize() {
+    changeCanvasSize() {
         /**Prompts user for new canvas size. Changes number of canvas-item 
          * divs in container if user enters non-negative and non-zero number
          * between 1 and 32.*/
-        const newSize = prompt("Enter new size.");
-        if (newSize > 0 && newSize <= 32) {
+        const newCanvasSize = prompt("Enter new size.");
+        if (newCanvasSize > 0 && newCanvasSize <= 32) {
             this.canvasContainer.innerHTML = '';
-            this.createGrid(newSize);
-        } else if (newSize <= 0 || newSize > 32) {
+            this.createNewCanvas(newCanvasSize);
+        } else if (newCanvasSize <= 0 || newCanvasSize > 32) {
             alert("Size cannot be negative, 0, or over 32.");
         }
     }
 
     configureChangeSizeButton() {
         /**Adds event listener to change size button that makes it call upon
-         * promptNewCanvasSize upon click.*/
+         * changeCanvasSize upon click.*/
         const changeSizeButton = document.getElementById(
             'change-size-button');
         changeSizeButton.addEventListener(
-            'click', () => this.promptNewCanvasSize());
+            'click', () => this.changeCanvasSize());
     }
 
     configureClearCanvasButton() {
@@ -110,7 +110,7 @@ class EtchASketch {
 
     deactivateCanvasItem(canvasStatus, canvasItem) {
         /**Replaces canvas item passed with a copy of themselves without any
-         *  event listeners.*/
+         * event listeners.*/
         canvasStatus.textContent = "Canvas inactive.";
         canvasItem.replaceWith(canvasItem.cloneNode(true));
     }
@@ -142,17 +142,25 @@ class EtchASketch {
         });
     }
 
-    createGrid(size) {
-        /**Sets number of columns in grid container equal to size argument
-         * and fills such up with size**2 divs with canvas-item and 
-         * canvas-item-border classes.*/
+    displayNewCanvasSize(newCanvasSize) {
+        /**Display current canvas size on user interface.*/
+        const canvasSize = document.getElementById('canvas-size');
+        canvasSize.textContent = `${newCanvasSize}x${newCanvasSize}`;
+    }
+
+    createNewCanvas(newCanvasSize) {
+        /**Sets number of columns in grid container equal to this.canvasSize
+         * and fills such up with (this.canvasSize)**2 divs that have 
+         * canvas-item and canvas-item-border classes. Also calls upon
+         * displayNewCanvasSize().*/
         this.canvasContainer.style.setProperty(
-            'grid-template-columns', `repeat(${size}, 1fr)`);
-        for (let i = 0; i < size ** 2; i++) {
+            'grid-template-columns', `repeat(${newCanvasSize}, 1fr)`);
+        for (let i = 0; i < (newCanvasSize)**2; i++) {
             const canvasItem = document.createElement('div');
             canvasItem.classList.add('canvas-item', 'canvas-item-border');
             this.canvasContainer.appendChild(canvasItem);
         }
+        this.displayNewCanvasSize(newCanvasSize);
     }
 
     run() {
@@ -160,7 +168,7 @@ class EtchASketch {
          * canvas toggling feature, and creates a 16x16 grid by default.*/
         this.configureButtons();
         this.configureCanvasToggling();
-        this.createGrid(this.defaultSize);
+        this.createNewCanvas(this.defaultCanvasSize);
     }
 }
 

@@ -1,5 +1,5 @@
 #canvas-container {
-    display: inline-grid;
+    display: grid;
     height: 500px;
     width: 500px;
 }
