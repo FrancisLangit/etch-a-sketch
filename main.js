@@ -103,7 +103,7 @@ class EtchASketch {
     activateCanvasItem(canvasStatus, canvasItem) {
         /**Adds mouseover event listener calling colorCanvasItem() to all
          * canvas square passed.*/
-        canvasStatus.textContent = "Active";
+        canvasStatus.textContent = "Active.";
         canvasItem.addEventListener(
             'mouseover', () => this.colorCanvasItem(canvasItem));
     }
@@ -111,7 +111,7 @@ class EtchASketch {
     deactivateCanvasItem(canvasStatus, canvasItem) {
         /**Replaces canvas item passed with a copy of themselves without any
          * event listeners.*/
-        canvasStatus.textContent = "Inactive";
+        canvasStatus.textContent = "Inactive.";
         canvasItem.replaceWith(canvasItem.cloneNode(true));
     }
 
@@ -146,7 +146,7 @@ class EtchASketch {
         /**Display current canvas size on user interface.*/
         const canvasSize = document.getElementById('canvas-size');
         canvasSize.textContent = (
-            `${newCanvasSize}x${newCanvasSize}`);
+            `${newCanvasSize}x${newCanvasSize}.`);
     }
 
     createNewCanvas(newCanvasSize) {
