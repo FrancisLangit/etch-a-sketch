@@ -1,19 +1,20 @@
 class EtchASketch {
     constructor() {
+        this.isCanvasActive = false;
         this.isGreyscale = false;
         this.isRainbow = false;
         this.isEraser = false;
         this.defaultSize = 16;
-        this.gridContainer = document.getElementById('grid-container');
+        this.canvas = document.getElementById('canvas');
     }
 
     promptNewGridSize() {
-        /**Prompts user for new grid size. Changes number of grid-item divs in
+        /**Prompts user for new grid size. Changes number of canvas-item divs in
          * container if user enters non-negative and non-zero number between 1
          * and 100.*/
         const newSize = prompt("Enter new size.");
         if (newSize > 0 && newSize <= 100) {
-            this.gridContainer.innerHTML = '';
+            this.canvas.innerHTML = '';
             this.createGrid(newSize);
         } else {
             alert("Size cannot be negative, 0, or over 100.");
@@ -35,7 +36,7 @@ class EtchASketch {
         const clearCanvasButton = document.getElementById(
             'clear-canvas-button');
         clearCanvasButton.addEventListener('click', () => {
-            const gridItems = document.querySelectorAll('.grid-item');
+            const gridItems = document.querySelectorAll('.canvas-item');
             for (let i = 0; i < gridItems.length; i++) {
                 gridItems[i].style.setProperty('background', 'white');
             }
@@ -48,11 +49,26 @@ class EtchASketch {
         const toggleGridButton = document.getElementById(
             'toggle-grid-button');
         toggleGridButton.addEventListener('click', () => {
-            const gridItems = document.querySelectorAll('.grid-item');
+            const gridItems = document.querySelectorAll('.canvas-item');
             for (let i = 0; i < gridItems.length; i++) {
-                gridItems[i].classList.toggle('grid-item-border');
+                gridItems[i].classList.toggle('canvas-item-border');
             }
         }); 
+    }
+
+    configureCanvasToggling() {
+        /**Adds event listener to window. If canvas div is clicked, sets
+         * this.isCanvasActive to true. Otherwise, if a click is made
+         * outside the the canvas div, this.isCanvasActive set to false.*/
+        window.addEventListener('click', function(e){
+            if (this.canvas.contains(e.target)) {
+                this.isCanvasActive = true;
+                console.log(this.isCanvasActive);
+            } else {
+                this.isCanvasActive = false;
+                console.log(this.isCanvasActive);
+            }
+        });
     }
 
     darkenGridItemColor(gridItem) {
@@ -86,19 +102,19 @@ class EtchASketch {
     }
 
     createGridItem() {
-        /**Creates a div with class grid-item and a mouseover event listener
+        /**Creates a div with class canvas-item and a mouseover event listener
          * that calls changeGridItemColor().*/
         const gridItem = document.createElement('div');
-        gridItem.classList.add('grid-item', 'grid-item-border');
+        gridItem.classList.add('canvas-item', 'canvas-item-border');
         gridItem.addEventListener(
             'mouseover', () => this.changeGridItemColor(gridItem));
-        this.gridContainer.appendChild(gridItem);
+        this.canvas.appendChild(gridItem);
     }
 
     createGrid(size) {
         /**Sets number of columns in grid container equal to size argument
-         * and fills such up with size**2 grid-item divs.*/
-        this.gridContainer.style.setProperty(
+         * and fills such up with size**2 canvas-item divs.*/
+        this.canvas.style.setProperty(
             'grid-template-columns', `repeat(${size}, 1fr)`);
         for (let i = 0; i < size ** 2; i++) {
             this.createGridItem();
@@ -111,6 +127,7 @@ class EtchASketch {
         this.configureChangeSizeButton();
         this.configureClearCanvasButton();
         this.configureToggleGridButton();
+        this.configureCanvasToggling();
         this.createGrid(this.defaultSize);
     }
 }

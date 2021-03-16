@@ -1,4 +1,4 @@
-#grid-container {
+#canvas {
     display: inline-grid;
     height: 500px;
     width: 500px;
@@ -8,13 +8,13 @@
     display: block;
 }
 
-.grid-item {
+.canvas-item {
     background: white;
     filter: brightness(1);
     height: auto;
     width: auto;
 }
 
-.grid-item-border {
+.canvas-item-border {
     border: 1px solid rgb(0, 0, 0);
 }
