@@ -1,35 +1,42 @@
 class EtchASketch {
     constructor() {
-        // Drawing modes.
-        this.isGreyscale = false;
-        this.isRainbow = false;
-        this.isEraser = false;
-
-        // Canvas settings.
-        this.defaultSize = 16;
+        this.defaultCanvasSize = 16;
         this.canvasContainer = document.getElementById('canvas-container');
     }
 
-    promptNewCanvasSize() {
-        /**Prompts user for new canvas size. Changes number of canvas-item 
-         * divs in container if user enters non-negative and non-zero number
-         * between 1 and 100.*/
-        const newSize = prompt("Enter new size.");
-        if (newSize > 0 && newSize <= 100) {
-            this.canvasContainer.innerHTML = '';
-            this.createGrid(newSize);
-        } else {
-            alert("Size cannot be negative, 0, or over 100.");
-        }
-    }
-
     configureChangeSizeButton() {
-        /**Adds event listener to change size button that makes it call upon
-         * promptNewCanvasSize upon click.*/
+        /**Adds event listener to change size button that makes it erase the
+         * value of input form of change size modal.*/
         const changeSizeButton = document.getElementById(
             'change-size-button');
-        changeSizeButton.addEventListener(
-            'click', () => this.promptNewCanvasSize());
+        changeSizeButton.addEventListener('click', () => {
+            document.getElementById('new-canvas-size').value = '';
+        });
+    }
+
+    changeCanvasSize() {
+        /**Prompts user for new canvas size. Changes number of canvas-item 
+         * divs in container if user enters non-negative and non-zero number
+         * between 1 and 32.*/
+        const newCanvasSize = document.getElementById(
+            'new-canvas-size').value;
+        if (newCanvasSize > 0 && newCanvasSize <= 32) {
+            this.canvasContainer.innerHTML = '';
+            this.createNewCanvas(newCanvasSize);
+        } else if (newCanvasSize === "") {
+            return; // Break early if user presses cancel on modal.
+        } else if (newCanvasSize <= 0 || newCanvasSize > 32) {
+            alert("Size cannot be negative, 0, or over 32.");
+        } 
+    }
+
+    configureSubmitNewSizeButton() {
+        /**Adds event listener to submit button in change size modal that 
+         * makes it call upon changeCanvasSize upon click.*/
+        const submitNewSizeButton = document.getElementById(
+            'submit-new-size-button');
+        submitNewSizeButton.addEventListener(
+            'click', () => this.changeCanvasSize());
     }
 
     configureClearCanvasButton() {
@@ -40,7 +47,7 @@ class EtchASketch {
         clearCanvasButton.addEventListener('click', () => {
             const canvasItems = document.querySelectorAll('.canvas-item');
             for (let i = 0; i < canvasItems.length; i++) {
-                canvasItems[i].style.setProperty('background', 'white');
+                this.resetCanvasItem(canvasItems[i]);
             }
         });
     }
@@ -59,13 +66,15 @@ class EtchASketch {
     }
 
     configureButtons() {
+        /**Adds event listeners to all buttons in the user interface.*/
         this.configureChangeSizeButton();
+        this.configureSubmitNewSizeButton();
         this.configureClearCanvasButton();
         this.configureToggleBordersButton();
     }
 
     darkenCanvasItemColor(canvasItem) {
-        /**Subtracts 10% brightness from the canvasItem div using its "filter" 
+        /**Subtracts 10% brightness from the canvasItem div using its "filter"
          * CSS property.*/
         let filterProperty = getComputedStyle(canvasItem).filter;
         let brightness = filterProperty.replace(/[^\d.]/g, '');
@@ -83,33 +92,40 @@ class EtchASketch {
         canvasItem.style.setProperty('background', randomHex);
     }
 
+    resetCanvasItem(canvasItem) {
+        /**Resets background and filter CSS attributes of canvasItem back to
+         * its defaults in .canvas-item class.*/
+        canvasItem.style.setProperty('background', 'white');
+        canvasItem.style.setProperty('filter', 'brightness(1)');
+    }
+
     colorCanvasItem(canvasItem) {
         /**Changes background of canvasItem to a different color dependent on
          * boolean values of this.isGreyscale, this.isRainbow, and
          * this.isEraser.*/
-        if (this.isGreyscale) {
+        if (document.getElementById('greyscale-button').checked) {
             this.darkenCanvasItemColor(canvasItem);
-        } else if (this.isRainbow) {
+        } else if (document.getElementById('rainbow-button').checked) {
             this.randomizeCanvasItemColor(canvasItem);
-        } else if (this.isEraser) {
-            canvasItem.style.setProperty('background', 'white');
+        } else if (document.getElementById('eraser-button').checked) {
+            this.resetCanvasItem(canvasItem);
         } else {
             canvasItem.style.setProperty('background', 'black');
         }
     }
 
-    activateCanvas(canvasStatus, canvasItem) {
-        /**Adds mouseover event listener calling colorCanvasItem() to all 
-         * canvas squares.*/
+    activateCanvasItem(canvasStatus, canvasItem) {
+        /**Adds mouseover event listener calling colorCanvasItem() to all
+         * canvas square passed.*/
         canvasStatus.textContent = "Canvas active.";
         canvasItem.addEventListener(
             'mouseover', () => this.colorCanvasItem(canvasItem));
     }
 
-    deactivateCanvas(canvasStatus, canvasItem) {
-        /**Replaces all grid items with a copy of themselves without any event
-         * listeners.*/
-        canvasStatus.textContent = "Canvas inactive.";
+    deactivateCanvasItem(canvasStatus, canvasItem) {
+        /**Replaces canvas item passed with a copy of themselves without any
+         * event listeners.*/
+        canvasStatus.textContent = "Click within canvas to activate.";
         canvasItem.replaceWith(canvasItem.cloneNode(true));
     }
 
@@ -120,9 +136,9 @@ class EtchASketch {
         const canvasItems = document.querySelectorAll('.canvas-item');
         for (let i = 0; i < canvasItems.length; i++) {
             if (isCanvasActive) {
-                this.activateCanvas(canvasStatus, canvasItems[i]);
+                this.activateCanvasItem(canvasStatus, canvasItems[i]);
             } else {
-                this.deactivateCanvas(canvasStatus, canvasItems[i]);
+                this.deactivateCanvasItem(canvasStatus, canvasItems[i]);
             }
         }
     }
@@ -140,17 +156,26 @@ class EtchASketch {
         });
     }
 
-    createGrid(size) {
-        /**Sets number of columns in grid container equal to size argument
-         * and fills such up with size**2 divs with canvas-item and 
-         * canvas-item-border classes.*/
+    displayNewCanvasSize(newCanvasSize) {
+        /**Display current canvas size on user interface.*/
+        const canvasSize = document.getElementById('canvas-size');
+        canvasSize.textContent = (
+            `${newCanvasSize}x${newCanvasSize}.`);
+    }
+
+    createNewCanvas(newCanvasSize) {
+        /**Sets number of columns in grid container equal to this.canvasSize
+         * and fills such up with (this.canvasSize)**2 divs that have 
+         * canvas-item and canvas-item-border classes. Also calls upon
+         * displayNewCanvasSize().*/
         this.canvasContainer.style.setProperty(
-            'grid-template-columns', `repeat(${size}, 1fr)`);
-        for (let i = 0; i < size ** 2; i++) {
+            'grid-template-columns', `repeat(${newCanvasSize}, 1fr)`);
+        for (let i = 0; i < (newCanvasSize)**2; i++) {
             const canvasItem = document.createElement('div');
             canvasItem.classList.add('canvas-item', 'canvas-item-border');
             this.canvasContainer.appendChild(canvasItem);
         }
+        this.displayNewCanvasSize(newCanvasSize);
     }
 
     run() {
@@ -158,7 +183,7 @@ class EtchASketch {
          * canvas toggling feature, and creates a 16x16 grid by default.*/
         this.configureButtons();
         this.configureCanvasToggling();
-        this.createGrid(this.defaultSize);
+        this.createNewCanvas(this.defaultCanvasSize);
     }
 }
 

@@ -1,11 +1,8 @@
 #canvas-container {
-    display: inline-grid;
-    height: 500px;
-    width: 500px;
-}
-
-.button {
-    display: block;
+    border: 1px solid rgb(200, 200, 200);
+    display: grid;
+    height: 37.5vw;
+    width: 37.5vw;
 }
 
 .canvas-item {
@@ -16,9 +13,13 @@
 }
 
 .canvas-item:hover {
-    background: rgb(230, 230, 230) !important;
+    background: rgb(200, 200, 200) !important;
 }
 
 .canvas-item-border {
-    border: 1px solid rgb(0, 0, 0);
+    border: 1px solid rgb(200, 200, 200);
+}
+
+.card {
+    width: 75vw;
 }
