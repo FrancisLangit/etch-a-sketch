@@ -4,25 +4,35 @@ class EtchASketch {
         this.canvasContainer = document.getElementById('canvas-container');
     }
 
+    configureChangeSizeButton() {
+        const changeSizeButton = document.getElementById(
+            'change-size-button');
+        changeSizeButton.addEventListener('click', () => {
+            document.getElementById('new-canvas-size').value = '';
+        });
+    }
+
     changeCanvasSize() {
         /**Prompts user for new canvas size. Changes number of canvas-item 
          * divs in container if user enters non-negative and non-zero number
          * between 1 and 32.*/
-        const newCanvasSize = prompt("Enter new size.");
+        const newCanvasSize = document.getElementById('new-canvas-size').value;        
         if (newCanvasSize > 0 && newCanvasSize <= 32) {
             this.canvasContainer.innerHTML = '';
             this.createNewCanvas(newCanvasSize);
+        } else if (newCanvasSize === "") {
+            return; // Break early if user presses cancel on modal.
         } else if (newCanvasSize <= 0 || newCanvasSize > 32) {
             alert("Size cannot be negative, 0, or over 32.");
-        }
+        } 
     }
 
-    configureChangeSizeButton() {
-        /**Adds event listener to change size button that makes it call upon
-         * changeCanvasSize upon click.*/
-        const changeSizeButton = document.getElementById(
-            'change-size-button');
-        changeSizeButton.addEventListener(
+    configureSubmitNewSizeButton() {
+        /**Adds event listener to submit button in change size modal that 
+         * makes it call upon changeCanvasSize upon click.*/
+        const submitNewSizeButton = document.getElementById(
+            'submit-new-size-button');
+        submitNewSizeButton.addEventListener(
             'click', () => this.changeCanvasSize());
     }
 
@@ -55,6 +65,7 @@ class EtchASketch {
     configureButtons() {
         /**Adds event listeners to all buttons in the user interface.*/
         this.configureChangeSizeButton();
+        this.configureSubmitNewSizeButton();
         this.configureClearCanvasButton();
         this.configureToggleBordersButton();
     }
@@ -103,7 +114,7 @@ class EtchASketch {
     activateCanvasItem(canvasStatus, canvasItem) {
         /**Adds mouseover event listener calling colorCanvasItem() to all
          * canvas square passed.*/
-        canvasStatus.textContent = "Active.";
+        canvasStatus.textContent = "Canvas active.";
         canvasItem.addEventListener(
             'mouseover', () => this.colorCanvasItem(canvasItem));
     }
@@ -111,7 +122,7 @@ class EtchASketch {
     deactivateCanvasItem(canvasStatus, canvasItem) {
         /**Replaces canvas item passed with a copy of themselves without any
          * event listeners.*/
-        canvasStatus.textContent = "Inactive.";
+        canvasStatus.textContent = "Click within canvas to activate.";
         canvasItem.replaceWith(canvasItem.cloneNode(true));
     }
 
