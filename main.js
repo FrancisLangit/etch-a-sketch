@@ -5,6 +5,8 @@ class EtchASketch {
     }
 
     configureChangeSizeButton() {
+        /**Adds event listener to change size button that makes it erase the
+         * value of input form of change size modal.*/
         const changeSizeButton = document.getElementById(
             'change-size-button');
         changeSizeButton.addEventListener('click', () => {
@@ -16,7 +18,8 @@ class EtchASketch {
         /**Prompts user for new canvas size. Changes number of canvas-item 
          * divs in container if user enters non-negative and non-zero number
          * between 1 and 32.*/
-        const newCanvasSize = document.getElementById('new-canvas-size').value;        
+        const newCanvasSize = document.getElementById(
+            'new-canvas-size').value;
         if (newCanvasSize > 0 && newCanvasSize <= 32) {
             this.canvasContainer.innerHTML = '';
             this.createNewCanvas(newCanvasSize);
