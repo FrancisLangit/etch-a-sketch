@@ -30,7 +30,13 @@ Users will be met with a window wide canvas upon opening up the website. To star
 - Change Size - Opens up a modal prompting the user for a new canvas size. The user inputs in **one** number between 1 and 32 representative of the height and width of the new canvas.
 - Toggle Borders - Turns the grid borders of the canvas on and off.
 
+## Contributing
 
+This repository is currently not open to contribution. However, should  one encounter a bug upon its usage, feel free to submit an issue detailing such.
+
+## License
+
+[MIT License](https://github.com/FrancisLangit/etch-a-sketch/blob/main/LICENSE)
 
 
 
