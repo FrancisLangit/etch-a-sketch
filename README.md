@@ -1,6 +1,6 @@
 ![README.md banner](readme_banner.png)
 
-`etch-a-sketch` is a light-weight drawing web-application built on HTML5, CSS, and vanilla JavaScript. It was made in partial completion of The Odin Project curriculum.
+`etch-a-sketch` is a light-weight drawing web-application built on HTML5, CSS, and vanilla JavaScript. It was made in [partial completion of The Odin Project curriculum](https://www.theodinproject.com/lessons/etch-a-sketch-project).
 
 ## Installation
 
@@ -13,7 +13,7 @@ Otherwise, the following steps are for those that would like to run the reposito
 
 ## Usage
 
-![GIF demonstrating usage of the web application](/home/francislangit/Desktop/etch-a-sketch/readme_usage_gif.gif)
+![GIF demonstrating usage of the web application](readme_usage_gif.gif)
 
 Users will be met with a window wide canvas upon opening up the website. To start drawing, one clicks within the canvas grid to activate it. They then move around their mouse to color each of the squares.
 
